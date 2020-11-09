@@ -19,7 +19,7 @@ import com.example.myapplication123.R
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class homeFragment : Fragment(),SensorEventListener
+class BlankFragment1 : Fragment(),SensorEventListener
 {
     private var sensorManager: SensorManager?= null
     private var running = false
@@ -27,7 +27,7 @@ class homeFragment : Fragment(),SensorEventListener
     private var previousTotalSteps = 0f
     lateinit var sharedPreferences: SharedPreferences
 
-
+    
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,14 +86,14 @@ class homeFragment : Fragment(),SensorEventListener
 
     private fun saveData()
     {
-        /* val preferences = this.requireActivity()
-             .getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-         //val editor = this.
-             //.getSharedPreferences("pref", Context.MODE_PRIVATE)
-         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-         editor.putFloat("key1", previousTotalSteps)
-         editor.apply()
-         */
+       /* val preferences = this.requireActivity()
+            .getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        //val editor = this.
+            //.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putFloat("key1", previousTotalSteps)
+        editor.apply()
+        */
         sharedPreferences = (activity as FragmentActivity).getSharedPreferences(
             getString(R.string.myPrefs),
             Context.MODE_PRIVATE
