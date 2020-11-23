@@ -9,4 +9,10 @@
     <string name="health">health</string>
     <string name="settings">settings</string>
     <string name="myPrefs">myPrefs</string>
+    <string name="Steps">Steps</string>
+    <string name="_0">0</string>
+    <string name="Steps1">Steps1</string>
+    <string name="Steps2">Steps2</string>
+    <string name="Steps3">Steps3</string>
+    <string name="Steps4">Steps4</string>
 </resources>

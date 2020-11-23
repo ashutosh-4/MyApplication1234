@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myapplication123.Fragments.homeFragment">
+    tools:context=".Fragments.homeFragment">
 
 
-    <com.mikhaellopez.circularprogressbar.CircularProgressBar
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/progress_circular"
-        android:layout_centerInParent="true"
-        app:cpb_background_progressbar_color="#f2f2f2"
-        app:cpb_background_progressbar_width="20dp"
-        app:cpb_progress_max="7000"
-        app:cpb_progressbar_color="#f44336"
-        app:cpb_progressbar_width="15dp"
-        app:cpb_round_border="true"
-        />
+        <TextView
+            android:id="@+id/stepsLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="108dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/Steps1"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_stepsTaken"
-        android:layout_centerInParent="true"
-        android:text="0"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        />
+        <TextView
+            android:id="@+id/stepsValue1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/_0"
+            android:textSize="35sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stepsLbl" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_TotalMax"
-        android:layout_below="@+id/tv_stepsTaken"
-        android:layout_centerInParent="true"
-        android:text="/7000"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        />
+        <Button
+            android:id="@+id/buttonstop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="18sp"
-        android:textColor="#4a4a4a"
-        android:text="Home"
-        />
+        <Button
+            android:id="@+id/buttonstart"
+            android:layout_width="99dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:text="start"
+            app:layout_constraintEnd_toEndOf="@+id/buttonstop"
+            app:layout_constraintTop_toBottomOf="@+id/buttonstop" />
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

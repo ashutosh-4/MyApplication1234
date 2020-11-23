@@ -1,31 +1,37 @@
 package com.example.myapplication123.Fragments
 
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Context.SENSOR_SERVICE
-import android.content.SharedPreferences
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.example.myapplication123.R
+import com.example.myapplication123.stepcountservice
+import com.example.myapplication123.updateUI
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class homeFragment : Fragment(),SensorEventListener
+class homeFragment : Fragment(),View.OnClickListener
 {
-    private var sensorManager: SensorManager?= null
-    private var running = false
-    private var totalSteps = 0f
-    private var previousTotalSteps = 0f
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var buttonstart1: Button
+    private lateinit var buttonstop1: Button
+    private lateinit var updatesteps:updateUI
+
+    private val broadCastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            var s1="0"
+            if (intent != null) {
+                s1= intent.getStringExtra("somename").toString()
+            }
+            stepsValue1.text = s1
+        }
+    }
 
 
 
@@ -34,89 +40,33 @@ class homeFragment : Fragment(),SensorEventListener
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view =inflater.inflate(R.layout.fragment_blank1, container, false)
-        loadData()
-        resetSteps()
-        sensorManager = requireActivity().getSystemService(SENSOR_SERVICE) as SensorManager
+
+        val view=inflater.inflate(R.layout.fragment_home, container, false)
+        buttonstart1=view.findViewById(R.id.buttonstart)
+        buttonstop1=view.findViewById(R.id.buttonstop)
+
+        buttonstart1.setOnClickListener(this)
+        buttonstop1.setOnClickListener(this)
 
 
 
         return view
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        running = true
-        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-        if (stepSensor == null) {
-            Toast.makeText(activity, "No sensor detected on this device", Toast.LENGTH_SHORT).show()
-        }else{
-            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
-        }
-    }
-
-    override fun onSensorChanged(event: SensorEvent?) {
-        if(running ){
-            totalSteps = event!!.values[0]
-            val currentSteps: Int = totalSteps.toInt() - previousTotalSteps.toInt()
-            tv_stepsTaken.text = ("$currentSteps")
-
-            progress_circular.apply{
-                setProgressWithAnimation(currentSteps.toFloat())
-            }
-
-        }
-    }
-
-    private fun resetSteps(){
-        tv_stepsTaken.setOnClickListener {
-            Toast.makeText(activity, "Long tap to reset steps", Toast.LENGTH_SHORT).show()
-        }
-        tv_stepsTaken.setOnLongClickListener{
-            previousTotalSteps = totalSteps
-
-            tv_stepsTaken.text= 0.toString()
-            saveData()
-
-            true
-
-        }
-    }
-
-    private fun saveData()
+    override fun onClick(view: View)
     {
-        /* val preferences = this.requireActivity()
-             .getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-         //val editor = this.
-             //.getSharedPreferences("pref", Context.MODE_PRIVATE)
-         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-         editor.putFloat("key1", previousTotalSteps)
-         editor.apply()
-         */
-        sharedPreferences = (activity as FragmentActivity).getSharedPreferences(
-            getString(R.string.myPrefs),
-            Context.MODE_PRIVATE
-        )
-        val editor = sharedPreferences.edit()
-        editor.putFloat("key1", previousTotalSteps)
-        editor.apply()
+        if(view == buttonstart1)
+        {
+            activity?.registerReceiver(broadCastReceiver, IntentFilter("myapplication"))
+            activity?.startService(Intent(activity, stepcountservice::class.java))
+        }
+        else if(view == buttonstop1)
+        {
+            activity?.unregisterReceiver(broadCastReceiver)
+            activity?.stopService(Intent(activity, stepcountservice::class.java))
+        }
     }
 
-    private fun loadData()
-    {
-        sharedPreferences = (activity as FragmentActivity).getSharedPreferences(
-            getString(R.string.myPrefs),
-            Context.MODE_PRIVATE
-        )
-        val savedNumber = sharedPreferences.getFloat("key1",0f)
-        Log.d("MainActivity", "$savedNumber")
-        previousTotalSteps = savedNumber
-    }
-
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-        TODO("Not yet implemented")
-    }
 
 
 }
